@@ -129,6 +129,7 @@ public class CasinoSlotIIController implements Initializable {
     }
 
     public static int egyenleg = 100000000;
+    public static int Chipmoney = 0;
     public static int vonal = 5;
     public static int vonaltet = 10;
     public static int scatter;
@@ -769,6 +770,7 @@ public class CasinoSlotIIController implements Initializable {
     public ImageView logo;
     public ImageView bgimage;
     public Label egyenleglabel;
+    public Label ujpenzlabel;
     public Label nyeremenylabel;
     public Label teljestetlabel;
     public Label vonallabel;
@@ -787,20 +789,30 @@ public class CasinoSlotIIController implements Initializable {
 
     @FXML
     private void spinbuttpushed(ActionEvent event){
-        if(egyenleg >= (vonaltet*vonal))
+        if((egyenleg+Chipmoney) >= (vonaltet*vonal))
         {
             int nyertpenz;
             scatter = 0;
             int bonuszszamlalo = 0;
             if(!bonuszvalto) {
-                egyenleg -= vonal * vonaltet;
+                if(egyenleg < vonal*vonaltet || egyenleg == 0)
+                {
+                    Chipmoney -= (vonal*vonal)-egyenleg;
+                    egyenleg = 0;
+                }
+                else
+                {
+                    egyenleg -= vonal*vonaltet;
+                }
             }
             egyenleglabel.setText("Egyenleg: " + egyenleg);
+            ujpenzlabel.setText("Új pénz: " + Chipmoney);
             char[][] slot = new char[3][5];
             porgetes(slot);
             nyertpenz = nyeremeny(slot);
             nyeremenylabel.setText("Nyeremény: " + nyertpenz);
-            egyenleg += nyertpenz;
+            Chipmoney += nyertpenz;
+            ujpenzlabel.setText("Új pénz: " + Chipmoney);
             egyenleglabel.setText("Egyenleg: " + egyenleg);
             teljestetlabel.setText("Teljes tét " + vonaltet * vonal);
             if(!bonuszvalto) {
@@ -860,8 +872,9 @@ public class CasinoSlotIIController implements Initializable {
                     vonalhighbutt.setDisable(false);
                     lowButt.setDisable(false);
                     highButt.setDisable(false);
-                    egyenleg += bonusznyeremeny;
+                    Chipmoney += bonusznyeremeny;
                     egyenleglabel.setText("Egyenleg: " + egyenleg);
+                    ujpenzlabel.setText("Új pénz: " + Chipmoney);
                     bonuszlabel.setVisible(false);
                     bonusznyeremenylabel.setVisible(false);
                 }
@@ -935,12 +948,20 @@ public class CasinoSlotIIController implements Initializable {
 
     public void gyorsbuttpushed(ActionEvent actionEvent)
     {
-        if(egyenleg >= (villam*vonaltet*vonal))
+        if((egyenleg+Chipmoney) >= (villam*vonaltet*vonal))
         {
             int nyertpenz = 0;
             for (int i = 0; i < villam; i++)
             {
-                egyenleg -= vonal * vonaltet;
+                if(egyenleg < vonaltet*vonal)
+                {
+                    Chipmoney -= (vonal*vonaltet) - egyenleg;
+                    egyenleg = 0;
+                }
+                else
+                {
+                    egyenleg -= vonal*vonaltet;
+                }
                     char[][] slot = new char[3][5];
                     porgetes(slot);
                     nyertpenz += nyeremeny(slot);
@@ -950,9 +971,10 @@ public class CasinoSlotIIController implements Initializable {
                         break;
                     }
             }
-            egyenleg += nyertpenz;
+            Chipmoney += nyertpenz;
             nyeremenylabel.setText("Nyeremény: " + nyertpenz);
             egyenleglabel.setText("Egyenleg: " + egyenleg);
+            ujpenzlabel.setText("Új pénz: " + Chipmoney);
             teljestetlabel.setText("Teljes tét " + vonaltet * vonal);
         }
 
@@ -963,6 +985,7 @@ public class CasinoSlotIIController implements Initializable {
         bgimage.setImage(new Image("/icons/bg.png"));
         nyeremenylabel.setText("Nyeremény: " + 0);
         egyenleglabel.setText("Egyenleg: " + egyenleg);
+        ujpenzlabel.setText("Új pénz: " + Chipmoney);
         vonaltetlabel.setText("" + vonaltet);
         teljestetlabel.setText("Teljes tét " + vonaltet*vonal);
     }
