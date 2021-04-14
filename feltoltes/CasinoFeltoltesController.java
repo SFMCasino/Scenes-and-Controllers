@@ -19,7 +19,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 /**
@@ -28,83 +32,138 @@ import javafx.stage.Stage;
  * @author XeroFox
  */
 public class CasinoFeltoltesController implements Initializable {
-    
+
     @FXML
     void MenuCloseButton(ActionEvent event){
         Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
         window.close();
     }
-    
-    Globalis global = new Globalis();
-    
-    @FXML
-    void MenuFooldalGomb(ActionEvent event) throws IOException {
-        global.LoadScene(event, getID.getText(), "Fomenu");
-    }
-    
+
     @FXML
     void MenuKijelentkezesButton(ActionEvent event) throws IOException {
-        global.LoadScene(event, getID.getText(), "Login");
+        Parent ViewParent = FXMLLoader.load(getClass().getResource("/fxml/CasinoLogin.fxml"));
+        Scene ViewScene = new Scene(ViewParent);
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        window.setScene(ViewScene);
+        window.show();
     }
 
     @FXML
     void MenuRouletteButton(ActionEvent event) throws IOException {
-        global.LoadScene(event, getID.getText(), "Roulette");
+        Parent ViewParent = FXMLLoader.load(getClass().getResource("/fxml/CasinoRoulette.fxml"));
+        Scene ViewScene = new Scene(ViewParent);
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        window.setScene(ViewScene);
+        window.show();
     }
-    
+
+    @FXML
+    void MenuFooldalGomb(ActionEvent event) throws IOException {
+        Parent ViewParent = FXMLLoader.load(getClass().getResource("/fxml/CasinoFomenu.fxml"));
+        Scene ViewScene = new Scene(ViewParent);
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        window.setScene(ViewScene);
+        window.show();
+    }
+
     @FXML
     void MenuProfileButton(ActionEvent event) throws IOException {
-        global.LoadScene(event, getID.getText(), "Profile");
+        Parent ProfileViewParent = FXMLLoader.load(getClass().getResource("/fxml/CasinoProfile.fxml"));
+        Scene ProfileViewScene = new Scene(ProfileViewParent);
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        window.setScene(ProfileViewScene);
+        window.show();
     }
-    
+
     @FXML
     void MenuBJButton(ActionEvent event) throws IOException {
-        global.LoadScene(event, getID.getText(), "BJ");
+        Parent BJViewParent = FXMLLoader.load(getClass().getResource("/fxml/CasinoBJ.fxml"));
+        Scene BJViewScene = new Scene(BJViewParent);
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        window.setScene(BJViewScene);
+        window.show();
     }
 
     @FXML
     void MenuBoltButton(ActionEvent event) throws IOException {
-        global.LoadScene(event, getID.getText(), "Bolt");
+        Parent ViewParent = FXMLLoader.load(getClass().getResource("/fxml/CasinoBolt.fxml"));
+        Scene ViewScene = new Scene(ViewParent);
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        window.setScene(ViewScene);
+        window.show();
     }
 
     @FXML
     void MenuCoinButton(ActionEvent event) throws IOException {
-        global.LoadScene(event, getID.getText(), "Coin");
+        Parent ViewParent = FXMLLoader.load(getClass().getResource("/fxml/CasinoCoin.fxml"));
+        Scene ViewScene = new Scene(ViewParent);
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        window.setScene(ViewScene);
+        window.show();
     }
 
     @FXML
     void MenuDiceButton(ActionEvent event) throws IOException {
-        global.LoadScene(event, getID.getText(), "Dice");
+        Parent ViewParent = FXMLLoader.load(getClass().getResource("/fxml/CasinoDice.fxml"));
+        Scene ViewScene = new Scene(ViewParent);
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        window.setScene(ViewScene);
+        window.show();
+    }
+
+    @FXML
+    void MenuFeltoltesButton(ActionEvent event) throws IOException {
+        Parent ViewParent = FXMLLoader.load(getClass().getResource("/fxml/CasinoFeltoltes.fxml"));
+        Scene ViewScene = new Scene(ViewParent);
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        window.setScene(ViewScene);
+        window.show();
     }
 
     @FXML
     void MenuSlotIButton(ActionEvent event) throws IOException {
-        global.LoadScene(event, getID.getText(), "SlotI");
+        Parent ViewParent = FXMLLoader.load(getClass().getResource("/fxml/CasinoSlotI.fxml"));
+        Scene ViewScene = new Scene(ViewParent);
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        window.setScene(ViewScene);
+        window.show();
     }
 
     @FXML
     void MenuWheelButton(ActionEvent event) throws IOException {
-        global.LoadScene(event, getID.getText(), "Wheel");
+        Parent ViewParent = FXMLLoader.load(getClass().getResource("/fxml/CasinoWheel.fxml"));
+        Scene ViewScene = new Scene(ViewParent);
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        window.setScene(ViewScene);
+        window.show();
+    }
+
+    public void MenuSlotIIButton(ActionEvent event) throws IOException {
+        Parent ViewParent = FXMLLoader.load(getClass().getResource("/fxml/CasinoSlotII.fxml"));
+        Scene ViewScene = new Scene(ViewParent);
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        window.setScene(ViewScene);
+        window.show();
     }
 
     @FXML
-    void MenuSlotIIButton(ActionEvent event) throws IOException {
-        global.LoadScene(event, getID.getText(), "SlotII");
-    }
-    
-    @FXML
-    private Label BankMoney,ChipMoney,getID;
+    private Label BankMoney,ChipMoney,getID,kozlLabel;
+    public Button paypalButt, bankButt;
+    public TextField cardText, cardpenzText, expText, bankpenzText;
+    public PasswordField cvcText;
+    public Pane cardPane, bankPane;
+
 
     String id = "";
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
+
+    }
     
     public void Adatatvitel(String ID){
         String kisid = ID;
-        try(BufferedReader bufferedReader = new BufferedReader(new FileReader(System.getProperty("user.home") + File.separator + (ID+=".txt")))){
+        try(BufferedReader bufferedReader = new BufferedReader(new FileReader(System.getProperty("user.home") + File.separator + (ID+".txt")))){
             String[] penzek = bufferedReader.readLine().split(":");
             getID.setText(kisid);
             BankMoney.setText(penzek[0]);
@@ -116,5 +175,18 @@ public class CasinoFeltoltesController implements Initializable {
         }
         
     }
-    
+
+
+
+    public void bankButtPressed(ActionEvent actionEvent)
+    {
+        bankPane.setVisible(true);
+        cardPane.setVisible(false);
+    }
+
+    public void cardButtPressed(ActionEvent actionEvent)
+    {
+        bankPane.setVisible(false);
+        cardPane.setVisible(true);
+    }
 }
