@@ -1,10 +1,13 @@
 package hu.unideb.inf;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Random;
 import java.util.ResourceBundle;
-import java.util.concurrent.TimeUnit;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -28,108 +31,66 @@ public class CasinoSlotIIController implements Initializable {
         Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
         window.close();
     }
-
+    
+    Globalis global = new Globalis();
+    
+    @FXML
+    void MenuFooldalGomb(ActionEvent event) throws IOException {
+        global.LoadScene(event, getID.getText(), "Fomenu");
+    }
+    
     @FXML
     void MenuKijelentkezesButton(ActionEvent event) throws IOException {
-        Parent ViewParent = FXMLLoader.load(getClass().getResource("/fxml/CasinoLogin.fxml"));
-        Scene ViewScene = new Scene(ViewParent);
-        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-        window.setScene(ViewScene);
-        window.show();
+        global.LoadScene(event, getID.getText(), "Login");
     }
 
     @FXML
     void MenuRouletteButton(ActionEvent event) throws IOException {
-        Parent ViewParent = FXMLLoader.load(getClass().getResource("/fxml/CasinoRoulette.fxml"));
-        Scene ViewScene = new Scene(ViewParent);
-        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-        window.setScene(ViewScene);
-        window.show();
+        global.LoadScene(event, getID.getText(), "Roulette");
     }
-
-    @FXML
-    void MenuFooldalGomb(ActionEvent event) throws IOException {
-        Parent ViewParent = FXMLLoader.load(getClass().getResource("/fxml/CasinoFomenu.fxml"));
-        Scene ViewScene = new Scene(ViewParent);
-        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-        window.setScene(ViewScene);
-        window.show();
-    }
-
+    
     @FXML
     void MenuProfileButton(ActionEvent event) throws IOException {
-        Parent ProfileViewParent = FXMLLoader.load(getClass().getResource("/fxml/CasinoProfile.fxml"));
-        Scene ProfileViewScene = new Scene(ProfileViewParent);
-        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-        window.setScene(ProfileViewScene);
-        window.show();
+        global.LoadScene(event, getID.getText(), "Profile");
     }
-
+    
     @FXML
     void MenuBJButton(ActionEvent event) throws IOException {
-        Parent BJViewParent = FXMLLoader.load(getClass().getResource("/fxml/CasinoBJ.fxml"));
-        Scene BJViewScene = new Scene(BJViewParent);
-        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-        window.setScene(BJViewScene);
-        window.show();
+        global.LoadScene(event, getID.getText(), "BJ");
     }
 
     @FXML
     void MenuBoltButton(ActionEvent event) throws IOException {
-        Parent ViewParent = FXMLLoader.load(getClass().getResource("/fxml/CasinoBolt.fxml"));
-        Scene ViewScene = new Scene(ViewParent);
-        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-        window.setScene(ViewScene);
-        window.show();
+        global.LoadScene(event, getID.getText(), "Bolt");
     }
 
     @FXML
     void MenuCoinButton(ActionEvent event) throws IOException {
-        Parent ViewParent = FXMLLoader.load(getClass().getResource("/fxml/CasinoCoin.fxml"));
-        Scene ViewScene = new Scene(ViewParent);
-        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-        window.setScene(ViewScene);
-        window.show();
+        global.LoadScene(event, getID.getText(), "Coin");
     }
 
     @FXML
     void MenuDiceButton(ActionEvent event) throws IOException {
-        Parent ViewParent = FXMLLoader.load(getClass().getResource("/fxml/CasinoDice.fxml"));
-        Scene ViewScene = new Scene(ViewParent);
-        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-        window.setScene(ViewScene);
-        window.show();
+        global.LoadScene(event, getID.getText(), "Dice");
     }
 
     @FXML
     void MenuFeltoltesButton(ActionEvent event) throws IOException {
-        Parent ViewParent = FXMLLoader.load(getClass().getResource("/fxml/CasinoFeltoltes.fxml"));
-        Scene ViewScene = new Scene(ViewParent);
-        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-        window.setScene(ViewScene);
-        window.show();
+        global.LoadScene(event, getID.getText(), "Feltoltes");
     }
 
     @FXML
     void MenuSlotIButton(ActionEvent event) throws IOException {
-        Parent ViewParent = FXMLLoader.load(getClass().getResource("/fxml/CasinoSlotI.fxml"));
-        Scene ViewScene = new Scene(ViewParent);
-        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-        window.setScene(ViewScene);
-        window.show();
+        global.LoadScene(event, getID.getText(), "SlotI");
     }
 
     @FXML
     void MenuWheelButton(ActionEvent event) throws IOException {
-        Parent ViewParent = FXMLLoader.load(getClass().getResource("/fxml/CasinoWheel.fxml"));
-        Scene ViewScene = new Scene(ViewParent);
-        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-        window.setScene(ViewScene);
-        window.show();
+        global.LoadScene(event, getID.getText(), "Wheel");
     }
 
-    public static int egyenleg = 100000000;
-    public static int Chipmoney = 0;
+    public static int egyenleg;
+    public static int Chipmoney;
     public static int vonal = 5;
     public static int vonaltet = 10;
     public static int scatter;
@@ -769,8 +730,6 @@ public class CasinoSlotIIController implements Initializable {
     public ImageView otharom;
     public ImageView logo;
     public ImageView bgimage;
-    public Label egyenleglabel;
-    public Label ujpenzlabel;
     public Label nyeremenylabel;
     public Label teljestetlabel;
     public Label vonallabel;
@@ -799,21 +758,21 @@ public class CasinoSlotIIController implements Initializable {
                 {
                     Chipmoney -= (vonal*vonal)-egyenleg;
                     egyenleg = 0;
+                    BankMoney.setText("" + egyenleg);
                 }
                 else
                 {
                     egyenleg -= vonal*vonaltet;
+                    BankMoney.setText("" + egyenleg);
                 }
             }
-            egyenleglabel.setText("Egyenleg: " + egyenleg);
-            ujpenzlabel.setText("Új pénz: " + Chipmoney);
             char[][] slot = new char[3][5];
             porgetes(slot);
             nyertpenz = nyeremeny(slot);
             nyeremenylabel.setText("Nyeremény: " + nyertpenz);
             Chipmoney += nyertpenz;
-            ujpenzlabel.setText("Új pénz: " + Chipmoney);
-            egyenleglabel.setText("Egyenleg: " + egyenleg);
+            ChipMoney.setText("" + Chipmoney);
+            global.saveData(id, egyenleg, Chipmoney, nem, hajszem, Kellekek);
             teljestetlabel.setText("Teljes tét " + vonaltet * vonal);
             if(!bonuszvalto) {
                 bonusz(slot);
@@ -873,8 +832,8 @@ public class CasinoSlotIIController implements Initializable {
                     lowButt.setDisable(false);
                     highButt.setDisable(false);
                     Chipmoney += bonusznyeremeny;
-                    egyenleglabel.setText("Egyenleg: " + egyenleg);
-                    ujpenzlabel.setText("Új pénz: " + Chipmoney);
+                    ChipMoney.setText("" + Chipmoney);
+                    global.saveData(id, egyenleg, Chipmoney, nem, hajszem, Kellekek);
                     bonuszlabel.setVisible(false);
                     bonusznyeremenylabel.setVisible(false);
                 }
@@ -961,6 +920,7 @@ public class CasinoSlotIIController implements Initializable {
                 else
                 {
                     egyenleg -= vonal*vonaltet;
+                    BankMoney.setText("" + egyenleg);
                 }
                     char[][] slot = new char[3][5];
                     porgetes(slot);
@@ -972,21 +932,53 @@ public class CasinoSlotIIController implements Initializable {
                     }
             }
             Chipmoney += nyertpenz;
+            ChipMoney.setText("" + Chipmoney);
+            global.saveData(id, egyenleg, Chipmoney, nem, hajszem, Kellekek);
             nyeremenylabel.setText("Nyeremény: " + nyertpenz);
-            egyenleglabel.setText("Egyenleg: " + egyenleg);
-            ujpenzlabel.setText("Új pénz: " + Chipmoney);
             teljestetlabel.setText("Teljes tét " + vonaltet * vonal);
         }
 
     }
 
+    @FXML
+    private Label BankMoney,ChipMoney,getID;
+
+    String id = "";
+    String nem = "", hajszem = "";
+    String[] Kellekek = new String[4];
+    
+    @FXML
+    private Button ProfilKep;
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         bgimage.setImage(new Image("/icons/bg.png"));
         nyeremenylabel.setText("Nyeremény: " + 0);
-        egyenleglabel.setText("Egyenleg: " + egyenleg);
-        ujpenzlabel.setText("Új pénz: " + Chipmoney);
         vonaltetlabel.setText("" + vonaltet);
         teljestetlabel.setText("Teljes tét " + vonaltet*vonal);
+    }
+    
+    public void Adatatvitel(String ID){
+        String kisid = ID;
+        id = ID;
+        try(BufferedReader bufferedReader = new BufferedReader(new FileReader(System.getProperty("user.home") + File.separator + (ID+".txt")))){
+            String[] penzek = bufferedReader.readLine().split(":");
+            getID.setText(kisid);
+            BankMoney.setText(penzek[0]);
+            ChipMoney.setText(penzek[1]);
+            nem = penzek[2];
+            hajszem = penzek[3];
+            for (int i = 4; i < penzek.length; i++) {
+                Kellekek[i-4] = penzek[i];
+            }
+            egyenleg = Integer.parseInt(BankMoney.getText());
+            Chipmoney = Integer.parseInt(ChipMoney.getText());
+            ProfilKep.setStyle(global.ProfilKepCsere(nem, hajszem));
+        } catch (FileNotFoundException e) {
+            // Exception handling
+        } catch (IOException e) {
+            // Exception handling
+        }
+        
     }
 }
